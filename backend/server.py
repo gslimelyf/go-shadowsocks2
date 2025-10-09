@@ -40,10 +40,19 @@ api_router = APIRouter(prefix="/api")
 
 # Initialize OpenAI Realtime Chat with Emergent LLM key
 EMERGENT_LLM_KEY = "sk-emergent-982703428D01aAb3c5"
-chat = OpenAIChatRealtime(api_key=EMERGENT_LLM_KEY)
 
-# Register OpenAI realtime router
-OpenAIChatRealtime.register_openai_realtime_router(api_router, chat)
+# Try to initialize OpenAI realtime integration
+try:
+    chat = OpenAIChatRealtime(api_key=EMERGENT_LLM_KEY)
+    # Register OpenAI realtime router
+    OpenAIChatRealtime.register_openai_realtime_router(api_router, chat)
+    logger.info("OpenAI realtime integration initialized successfully")
+    REALTIME_AVAILABLE = True
+except Exception as e:
+    logger.warning(f"OpenAI realtime integration not available: {e}")
+    logger.info("Voice calls will use basic WebRTC without AI voice cloning")
+    REALTIME_AVAILABLE = False
+    chat = None
 
 # Models
 class User(BaseModel):

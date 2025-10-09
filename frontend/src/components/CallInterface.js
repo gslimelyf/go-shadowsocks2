@@ -346,9 +346,9 @@ const CallInterface = () => {
               <h2 className="text-3xl font-bold mb-2" data-testid="user-display-name">{user?.username}</h2>
               <p className="text-lg text-slate-400 mb-4" data-testid="connection-status">{connectionStatus}</p>
               
-              {isVoiceCloningEnabled && callStatus === 'active' && (
-                <Badge className="bg-purple-500/20 text-purple-400 border border-purple-500/30">
-                  🎭 Voice Cloning Active
+              {callStatus === 'active' && (
+                <Badge className={`${isVoiceCloningEnabled ? 'bg-purple-500/20 text-purple-400 border-purple-500/30' : 'bg-gray-500/20 text-gray-400 border-gray-500/30'}`}>
+                  {isVoiceCloningEnabled ? '🎭 Voice Cloning Active' : '📞 Basic Voice Call'}
                 </Badge>
               )}
             </div>

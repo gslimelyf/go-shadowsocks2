@@ -29,16 +29,21 @@ class RealtimeAudioChat {
 
   async init() {
     try {
-      // Get session from backend
-      const tokenResponse = await fetch("/api/v1/realtime/session", {
+      // Get session from backend (fixed endpoint path)
+      const tokenResponse = await fetch("/api/realtime/session", {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
         }
       });
+      
+      if (!tokenResponse.ok) {
+        throw new Error("Realtime session not available, using basic WebRTC");
+      }
+      
       const data = await tokenResponse.json();
       if (!data.client_secret?.value) {
-        throw new Error("Failed to get session token");
+        throw new Error("Failed to get session token, using basic WebRTC");
       }
 
       // Create and set up WebRTC peer connection
@@ -52,13 +57,17 @@ class RealtimeAudioChat {
       await this.peerConnection.setLocalDescription(offer);
 
       // Send offer to backend and get answer
-      const response = await fetch("/api/v1/realtime/negotiate", {
+      const response = await fetch("/api/realtime/negotiate", {
         method: "POST",
         body: offer.sdp,
         headers: {
           "Content-Type": "application/sdp"
         }
       });
+
+      if (!response.ok) {
+        throw new Error("Failed to negotiate WebRTC connection");
+      }
 
       const { sdp: answerSdp } = await response.json();
       const answer = {
@@ -67,10 +76,10 @@ class RealtimeAudioChat {
       };
 
       await this.peerConnection.setRemoteDescription(answer);
-      console.log("WebRTC connection established");
+      console.log("WebRTC connection established with AI voice cloning");
       return true;
     } catch (error) {
-      console.error("Failed to initialize audio chat:", error);
+      console.error("Failed to initialize AI audio chat:", error);
       throw error;
     }
   }

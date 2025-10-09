@@ -193,11 +193,21 @@ const CallInterface = () => {
       // Get user media for basic audio
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
       
-      // Create audio element to play local stream (for demonstration)
-      const audioElement = document.createElement('audio');
-      audioElement.srcObject = stream;
-      audioElement.muted = true; // Prevent feedback
-      document.body.appendChild(audioElement);
+      // Store the stream for microphone control
+      audioChat.current = {
+        localStream: stream,
+        toggleMicrophone: (enabled) => {
+          stream.getAudioTracks().forEach(track => {
+            track.enabled = enabled;
+          });
+        },
+        disconnect: () => {
+          stream.getTracks().forEach(track => track.stop());
+        }
+      };
+      
+      // Disable AI voice cloning since it's not available
+      setIsVoiceCloningEnabled(false);
       
       setConnectionStatus('Basic audio ready');
       setCallStatus('active');

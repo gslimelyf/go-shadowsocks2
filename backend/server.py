@@ -41,6 +41,13 @@ api_router = APIRouter(prefix="/api")
 # Initialize OpenAI Realtime Chat with Emergent LLM key
 EMERGENT_LLM_KEY = "sk-emergent-982703428D01aAb3c5"
 
+# Configure logging first
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+)
+logger = logging.getLogger(__name__)
+
 # Try to initialize OpenAI realtime integration
 try:
     chat = OpenAIChatRealtime(api_key=EMERGENT_LLM_KEY)

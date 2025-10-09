@@ -309,7 +309,19 @@ async def end_call(call_id: str, current_user: User = Depends(get_current_user))
 # Basic health check
 @api_router.get("/")
 async def root():
-    return {"message": "Live Voice Clone Stream API is running!", "version": "1.0.0"}
+    return {
+        "message": "Live Voice Clone Stream API is running!", 
+        "version": "1.0.0",
+        "realtime_available": REALTIME_AVAILABLE
+    }
+
+@api_router.get("/realtime/status")
+async def realtime_status():
+    """Check if OpenAI realtime features are available"""
+    return {
+        "available": REALTIME_AVAILABLE,
+        "message": "OpenAI realtime voice cloning available" if REALTIME_AVAILABLE else "Basic WebRTC calling only"
+    }
 
 @api_router.get("/users/me", response_model=User)
 async def get_current_user_info(current_user: User = Depends(get_current_user)):

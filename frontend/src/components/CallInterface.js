@@ -153,15 +153,22 @@ const CallInterface = () => {
 
   const initializeCall = async () => {
     try {
-      setConnectionStatus('Connecting to voice service...');
+      setConnectionStatus('Checking voice service...');
       
-      // Initialize WebRTC audio chat
-      audioChat.current = new RealtimeAudioChat();
-      await audioChat.current.init();
+      // Check if realtime features are available
+      const statusResponse = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/realtime/status`);
+      const statusData = await statusResponse.json();
       
-      setConnectionStatus('Connected');
-      setCallStatus('active');
-      toast.success('Connected to voice call!');
+      if (statusData.available) {
+        setConnectionStatus('Connecting to AI voice service...');
+        
+        // Initialize WebRTC audio chat with AI
+        audioChat.current = new RealtimeAudioChat();
+        await audioChat.current.init();
+        
+        setConnectionStatus('Connected with AI voice cloning');
+        setCallStatus('active');
+        toast.success('Connected with AI voice cloning!');
     } catch (error) {
       console.error('Call initialization error:', error);
       setConnectionStatus('Connection failed');

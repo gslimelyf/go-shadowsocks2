@@ -169,13 +169,20 @@ const CallInterface = () => {
         setConnectionStatus('Connected with AI voice cloning');
         setCallStatus('active');
         toast.success('Connected with AI voice cloning!');
+      } else {
+        setConnectionStatus('AI voice cloning not available, using basic audio...');
+        toast.info('Using basic voice calling mode');
+        
+        // Fallback to basic WebRTC without OpenAI integration
+        await initializeBasicWebRTC();
+      }
     } catch (error) {
       console.error('Call initialization error:', error);
-      setConnectionStatus('Connection failed');
-      toast.error('Failed to connect to voice service. Using basic WebRTC mode.');
+      setConnectionStatus('Connection failed, trying basic mode...');
+      toast.error('AI voice service unavailable. Using basic WebRTC mode.');
       
       // Fallback to basic WebRTC without OpenAI integration
-      initializeBasicWebRTC();
+      await initializeBasicWebRTC();
     }
   };
 

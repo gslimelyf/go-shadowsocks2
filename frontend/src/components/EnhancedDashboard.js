@@ -21,7 +21,7 @@ import {
   Zap,
   Volume2,
   Sparkles,
-  Waveform,
+  Waves,
   User,
   FileAudio,
   Play,

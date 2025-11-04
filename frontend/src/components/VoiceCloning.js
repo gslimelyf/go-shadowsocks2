@@ -19,7 +19,7 @@ import {
   Copy,
   Settings,
   Volume2,
-  Waveform,
+  Waves,
   Sparkles,
   Zap,
   User,

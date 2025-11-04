@@ -98,8 +98,8 @@ function App() {
         <div className="App">
           <Routes>
             <Route path="/auth" element={<AuthPage />} />
-            <Route path="/" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
-            <Route path="/call/:roomId" element={<ProtectedRoute><CallInterface /></ProtectedRoute>} />
+            <Route path="/" element={<ProtectedRoute><EnhancedDashboard /></ProtectedRoute>} />
+            <Route path="/call/:roomId" element={<ProtectedRoute><EnhancedCallInterface /></ProtectedRoute>} />
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
           <Toaster richColors position="top-right" />

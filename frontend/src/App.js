@@ -2,8 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import './App.css';
 import AuthPage from './components/AuthPage';
-import Dashboard from './components/Dashboard';
-import CallInterface from './components/CallInterface';
+import EnhancedDashboard from './components/EnhancedDashboard';
+import EnhancedCallInterface from './components/EnhancedCallInterface';
 import { Toaster } from './components/ui/sonner';
 
 // Auth context
